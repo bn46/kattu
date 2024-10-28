@@ -29,8 +29,6 @@ on:
         required: true
       DEV_NAMESPACE_DOCKER_HUB:
         required: true
-      SLACK_WEBHOOK_URL:
-        required: true
 
 jobs:
   build-dockers:
@@ -38,7 +36,15 @@ jobs:
     env:
       NAMESPACE: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
       SERVICE_LOCATION: ${{ inputs.SERVICE_LOCATION }}
-      SERVICE_NAME: ${{ inputs.SERVICE_NAME }}
+      SERVICE_NAME: ${{ inputs.SERVICE  env:
+      GITHUB_USER: ${{ github.actor }}
+      WORKFLOW: ${{ github.workflow }}
+      ACTION: ${{ github.event.action || 'N/A' }}
+      PR_URL: "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+      COMMIT: "https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+      REPO: ${{ github.repository }}
+      JOB_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      MESSAGE: ${{ github.event.head_commit.message || github.event.pull_request.title }}
 
     steps:
       - uses: actions/checkout@v3
@@ -121,10 +127,21 @@ jobs:
           docker tag $SERVICE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,author,commit,workflow,job # selectable (default: repo,message)
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: "${{ github.event_name != 'pull_request' && failure() }}" # Pick up events even if the job fails or is canceled.
+notify-slack:
+  needs: build-dockers
+  if: failure()
+  secrets:
+    GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
+    SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+    DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
+    SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
+  uses: bn46org/kattu/.github/workflows/slack-notification.yml@develop
+  with:
+    GITHUB_USER: ${{ env.GITHUB_USER }}
+    WORKFLOW: ${{ env.WORKFLOW }}
+    PR_URL: ${{ env.PR_URL }}
+    COMMIT: ${{ env.COMMIT }}
+    REPO: ${{ env.REPO }}
+    JOB_URL: ${{ env.JOB_URL }}
+    MESSAGE: ${{ env.MESSAGE }}
+
