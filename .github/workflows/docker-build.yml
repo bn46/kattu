@@ -29,6 +29,14 @@ on:
         required: true
       DEV_NAMESPACE_DOCKER_HUB:
         required: true
+      SLACK_BOT_TOKEN:
+        required: true
+      DEFAULT_CHANNEL_ID:
+        required: true
+      GPG_USER_MAP_PASSPHRASE:
+        required: true
+      SECONDARY_CHANNEL_ID:
+        required: true
 
 jobs:
   build-dockers:
