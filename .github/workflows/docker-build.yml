@@ -36,7 +36,7 @@ jobs:
     env:
       NAMESPACE: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
       SERVICE_LOCATION: ${{ inputs.SERVICE_LOCATION }}
-      SERVICE_NAME: ${{ inputs.SERVICE  env:
+      SERVICE_NAME: ${{ inputs.SERVICE_NAME }}
       GITHUB_USER: ${{ github.actor }}
       WORKFLOW: ${{ github.workflow }}
       ACTION: ${{ github.event.action || 'N/A' }}
