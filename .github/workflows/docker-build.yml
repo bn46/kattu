@@ -127,21 +127,21 @@ jobs:
           docker tag $SERVICE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-notify-slack:
-  needs: build-dockers
-  if: failure()
-  secrets:
-    GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
-    SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-    DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
-    SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
-  uses: bn46org/kattu/.github/workflows/slack-notification.yml@develop
-  with:
-    GITHUB_USER: ${{ env.GITHUB_USER }}
-    WORKFLOW: ${{ env.WORKFLOW }}
-    PR_URL: ${{ env.PR_URL }}
-    COMMIT: ${{ env.COMMIT }}
-    REPO: ${{ env.REPO }}
-    JOB_URL: ${{ env.JOB_URL }}
-    MESSAGE: ${{ env.MESSAGE }}
+  notify-slack:
+    needs: build-dockers
+    if: failure()
+    secrets:
+      GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
+      SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
+    uses: bn46org/kattu/.github/workflows/slack-notification.yml@develop
+    with:
+      GITHUB_USER: ${{ env.GITHUB_USER }}
+      WORKFLOW: ${{ env.WORKFLOW }}
+      PR_URL: ${{ env.PR_URL }}
+      COMMIT: ${{ env.COMMIT }}
+      REPO: ${{ env.REPO }}
+      JOB_URL: ${{ env.JOB_URL }}
+      MESSAGE: ${{ env.MESSAGE }}
 
