@@ -36,7 +36,6 @@ on:
         required: true
       SECONDARY_CHANNEL_ID:
         required: true
-
 jobs:
   notify:
     runs-on: ubuntu-latest
