@@ -12,9 +12,9 @@ on:
       WORKFLOW:
         required: true
         type: string
-      ACTION:
-        required: true
-        type: string
+      # ACTION:
+      #   required: true
+      #   type: string
       COMMIT:
         required: true
         type: string
