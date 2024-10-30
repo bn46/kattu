@@ -138,11 +138,11 @@ jobs:
   notify-slack:
     needs: build-dockers
     if: failure()
-    # secrets:
-    #   GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
-    #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-    #   DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
-    #   SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
+    secrets:
+      GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
+      SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
     uses: bn46org/kattu/.github/workflows/slack-notification.yml@master-java21
     with:
       GITHUB_USER: ${{ github.actor }}
@@ -153,8 +153,4 @@ jobs:
       JOB_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
       MESSAGE: ${{ github.event.head_commit.message || github.event.pull_request.title }}
       ACTION: ${{ github.event.action || 'N/A' }}
-      GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
-      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
-      SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
 
