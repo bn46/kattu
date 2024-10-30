@@ -31,7 +31,7 @@ on:
       SLACK_BOT_TOKEN:
         required: true
       GPG_USER_MAP_PASSPHRASE:
-        required: true
+        required: false
       DEFAULT_CHANNEL_ID:
         required: true
       SECONDARY_CHANNEL_ID:
