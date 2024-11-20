@@ -24,11 +24,11 @@ on:
 
     secrets:
       RELEASE_DOCKER_HUB:
-        required: true
+        required: false
       ACTOR_DOCKER_HUB:
-        required: true
+        required: false
       DEV_NAMESPACE_DOCKER_HUB:
-        required: true
+        required: false
       SLACK_BOT_TOKEN:
         required: true
       DEFAULT_CHANNEL_ID:
