@@ -23,20 +23,20 @@ on:
         default: false
 
     secrets:
-      RELEASE_DOCKER_HUB:
-        required: false
-      ACTOR_DOCKER_HUB:
-        required: false
-      DEV_NAMESPACE_DOCKER_HUB:
-        required: false
-      SLACK_BOT_TOKEN:
-        required: true
-      DEFAULT_CHANNEL_ID:
-        required: true
-      GPG_USER_MAP_PASSPHRASE:
-        required: true
-      SECONDARY_CHANNEL_ID:
-        required: true
+      # RELEASE_DOCKER_HUB:
+      #   required: false
+      # ACTOR_DOCKER_HUB:
+      #   required: false
+      # DEV_NAMESPACE_DOCKER_HUB:
+      #   required: false
+      # SLACK_BOT_TOKEN:
+      #   required: true
+      # DEFAULT_CHANNEL_ID:
+      #   required: true
+      # GPG_USER_MAP_PASSPHRASE:
+      #   required: true
+      # SECONDARY_CHANNEL_ID:
+      #   required: true
 
 jobs:
   build-dockers:
@@ -138,12 +138,12 @@ jobs:
   notify-slack:
     needs: build-dockers
     if: failure()
-    # secrets:
-    #   GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
-    #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-    #   DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
-    #   SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
-    uses: ./.github/workflows/slack-notification.yml
+    secrets:
+      GPG_USER_MAP_PASSPHRASE: ${{ secrets.GPG_USER_MAP_PASSPHRASE }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
+      SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
+    uses: bn46org/kattu/.github/workflows/slack-notification.yml@master-java21
     with:
       GITHUB_USER: ${{ github.actor }}
       WORKFLOW: ${{ github.workflow }}
@@ -157,5 +157,4 @@ jobs:
       # SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       # DEFAULT_CHANNEL_ID: ${{ secrets.DEFAULT_CHANNEL_ID }}
       # SECONDARY_CHANNEL_ID: ${{ secrets.SECONDARY_CHANNEL_ID }}
-    secrets: inherit
-
+    # secrets: inherit
