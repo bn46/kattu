@@ -27,6 +27,18 @@ on:
       MESSAGE:
         required: true
         type: string
+      # SLACK_BOT_TOKEN:
+      #   required: true
+      #   type: string
+      # GPG_USER_MAP_PASSPHRASE:
+      #   required: true
+      #   type: string
+      # DEFAULT_CHANNEL_ID:
+      #   required: true
+      #   type: string
+      # SECONDARY_CHANNEL_ID:
+      #   required: true
+      #   type: string
     # secrets:
     #   SLACK_BOT_TOKEN:
     #     required: true
